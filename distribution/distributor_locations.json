@@ -1,0 +1,46 @@
+{
+  "111 Court Street, Oshawa, ON L1H 4W5": {
+    "lat": 43.8957768,
+    "lon": -78.8588167
+  },
+  "1290 Blundell Road, Mississauga, ON L4Y 1M5": {
+    "lat": 43.6066917,
+    "lon": -79.5863848
+  },
+  "151 Regal Road, Guelph, ON N1K 1E2": {
+    "lat": 43.552584,
+    "lon": -80.3046717
+  },
+  "165 The Queensway, Toronto, ON M8Y 1H8": {
+    "lat": 43.6300073,
+    "lon": -79.4852489
+  },
+  "188 New Toronto Street, Toronto, ON M8V 2E8": {
+    "lat": 43.6082114,
+    "lon": -79.5006202
+  },
+  "302 Dwight Avenue, Toronto, ON M8V 2W7": {
+    "lat": 43.6103753,
+    "lon": -79.5019039
+  },
+  "333 Peel Street, Collingwood, ON L9Y 3W3": {
+    "lat": 44.5000706,
+    "lon": -80.2056795
+  },
+  "40 Magnetic Drive, Toronto, ON M3J 2C4": {
+    "lat": 43.7807801,
+    "lon": -79.4718093
+  },
+  "475 Horner Avenue, Toronto, ON M8W 4X7": {
+    "lat": 43.6020534,
+    "lon": -79.5430026
+  },
+  "Akron Road, Etobicoke, ON M8W 1T2": {
+    "lat": 43.6000166,
+    "lon": -79.5324773
+  },
+  "Toronto, ON M6J 3P5": {
+    "lat": 43.6534817,
+    "lon": -79.3839347
+  }
+}
