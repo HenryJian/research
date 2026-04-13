@@ -30,3 +30,7 @@ Examples:
 - Prefer research outputs that are actionable for a specialty mushroom farm in Ontario.
 - Assume "we" refers to the farm operators unless the local document establishes a different perspective.
 - When organizing new work, place it in topic-specific directories when possible so research results remain easy to find later.
+
+# Python Environment
+
+For any Python code or Python-based tooling in this repository, use the local `.venv` environment rather than the system Python.
