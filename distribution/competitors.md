@@ -24,6 +24,8 @@ This file contains Ontario mushroom farms and grower-distributors that are more 
 | [Nebo Mushrooms](https://nebomushrooms.com/) | Grower / farm | Hamilton / Southern Ontario | Farm with distributor sign-up, but public story and positioning are clearly farm-led | Shiitake, grey oyster, yellow oyster; also lion's mane | SQF claimed: company about page says organic certified and SQF certified; current SQFI certificate not found. CanadaGAP: no public record found. | [CGAP]; [SQFI]; [NEB] |
 | [Guan's Mushroom](https://guansmushroom.com/) | Grower / farm + distributor | Markham / GTA via Toronto distribution center | Official site describes itself as a leading grower and distributor with its own farm base and Toronto distribution center | Specialty mushrooms publicly confirmed; exact Ontario SKU list not fully itemized on the main page | CanadaGAP confirmed: Option D wholesale fresh fruits and vegetables, expires 2026-12-31. SQF: no public record found. | [CGAP]; [SQFI]; [GUA] |
 | [Brantford Mushroom Farm](https://www.mapquest.com/ca/ontario/brantford-mushroom-farm-359415047) | Grower / farm | Brant / Brantford | Family-owned mushroom farm near Brantford that cultivates mushrooms for wholesale distribution | Mushrooms; varieties not verified on public pages checked | No public CanadaGAP or SQF evidence found. | [CGAP]; [SQFI]; [BRA] |
+| [Everyday Mushrooms](https://everydaymushrooms.ca/locations/) | Grower / farm | New Hamburg; St. Jacobs Farmers Market; Kitchener-Waterloo, Hamilton, and London restaurant / deli / independent-grocer outreach | Farm-led organic gourmet mushroom seller seeking restaurants, delis, and independent grocers; found during Southwestern Ontario distributor scan | Oyster, chestnut, lion's mane; shiitake not publicly verified on pages checked | No public CanadaGAP or SQF evidence found. | [CGAP]; [SQFI]; [EVE] |
+| [Lincoln Mushroom Farm](https://www.lincolnmushrooms.com/) | Grower / farm | Stoney Creek / restaurant and wholesale supply chain | Mushroom farm established in 1975; public site says it specializes in high-quality mushrooms for the wholesale supply chain and restaurant industry | White, cremini, portobello; shiitake and oyster not publicly verified on pages checked | No public CanadaGAP or SQF evidence found. | [CGAP]; [SQFI]; [LIN] |
 | [Farm Fresh Mushrooms +(plus)](https://farmfreshmushrooms.ca/) | Grower / farm | Ontario; exact farm location not published on public page checked | Ontario-grown mushroom and produce seller with pre-order / delivery positioning | Shiitake, oyster, portobello; also black pearl, cinnamon cap, lion's mane, pioppino | No public CanadaGAP or SQF evidence found. | [CGAP]; [SQFI]; [FFM] |
 | [Nature Lion](https://naturelion.ca/about) | Mushroom products / spawn / grow kits | Brantford / Canada-wide | Brantford CFIA-licensed mushroom company producing spawn, grow kits, cultures, substrates, mushroom powders, and private-label functional mushroom products | Mushroom grain spawn and functional mushroom products; fresh-market shiitake not verified | No public CanadaGAP or SQF evidence found; site emphasizes CFIA licensing. | [CGAP]; [SQFI]; [NAT] |
 | [Pfenning's Organic Farms](https://pfenningsfarms.ca/our-services/) | Farm-led produce distributor | New Hamburg / Ontario | Organic farm, packer, importer, and distributor that explicitly distributes produce for other local farms; keep out of distributor buyer leads under the no-farms rule | Mushrooms listed among local partner products; shiitake not specifically verified | CanadaGAP confirmed: Option C/D vegetable scope, expires 2026-11-27; not mushroom-specific. SQF: no public record found. | [CGAP]; [SQFI]; [PFE] |
@@ -44,6 +46,8 @@ This file contains Ontario mushroom farms and grower-distributors that are more 
   - Enviro Mushroom Farm
   - Guan's Mushroom
   - Brantford Mushroom Farm
+  - Everyday Mushrooms
+  - Lincoln Mushroom Farm
   - Nature Lion
 - Farm-led channel competitor / watchlist:
   - Pfenning's Organic Farms
@@ -65,6 +69,8 @@ This file contains Ontario mushroom farms and grower-distributors that are more 
 - `NEB`: [Nebo Mushrooms About](https://nebomushrooms.com/about/). Used for company SQF claim.
 - `GUA`: [Guan's Mushroom About Us](https://guansmushroom.com/about-us/). Checked for public certification and food-safety wording.
 - `BRA`: [Brantford Mushroom Farm MapQuest listing](https://www.mapquest.com/ca/ontario/brantford-mushroom-farm-359415047). Checked for public certification claims.
+- `EVE`: [Everyday Mushrooms Locations](https://everydaymushrooms.ca/locations/). Used for farm location, restaurant / deli / independent-grocer sales signal, and visible mushroom varieties.
+- `LIN`: [Lincoln Mushroom Farm](https://www.lincolnmushrooms.com/). Used for farm location, wholesale / restaurant supply signal, and visible mushroom varieties.
 - `FFM`: [Farm Fresh Mushrooms +(plus)](https://farmfreshmushrooms.ca/). Checked for public certification claims.
 - `NAT`: [Nature Lion About](https://naturelion.ca/about). Checked for public certification claims and CFIA-license wording.
 - `PFE`: [Pfenning's Organic Farms Food Safety](https://pfenningsfarms.ca/food-safety/). Used for company CanadaGAP claim.
@@ -74,6 +80,7 @@ This file contains Ontario mushroom farms and grower-distributors that are more 
 - Ravine, Guan's, and Pfenning's remain in this competitor file even though they have distribution elements, because they are farm-led businesses.
 - Holburne and WoodBloom both mention distributor partners, so they may still be useful for channel intelligence even though they are competitors.
 - Brantford Mushroom Farm and Nature Lion are included because they are near Brantford and can confuse distributor research; they should not be treated as fresh mushroom buyer leads without direct evidence that they buy from outside growers.
+- Everyday Mushrooms and Lincoln Mushroom Farm were added during the Southwestern Ontario distributor scan because they show restaurant / wholesale signals, but both are farm-led growers and belong here rather than in `distributors.md`.
 - Pfenning's is not a verified mushroom grower from the public pages checked, but it was moved here from `distributors.md` because it is clearly farm-led.
 - If a public site did not explicitly list a mushroom type, it is not marked as verified here.
 - "No public CanadaGAP or SQF evidence found" means the business did not appear under the checked name variants in the April 2026 CanadaGAP certified-company list, the public SQFI directory/search results checked, or the supplier pages checked. Treat this as a public-evidence finding, not a definitive legal certification opinion.
@@ -95,6 +102,8 @@ This file contains Ontario mushroom farms and grower-distributors that are more 
 [NEB]: https://nebomushrooms.com/about/
 [GUA]: https://guansmushroom.com/about-us/
 [BRA]: https://www.mapquest.com/ca/ontario/brantford-mushroom-farm-359415047
+[EVE]: https://everydaymushrooms.ca/locations/
+[LIN]: https://www.lincolnmushrooms.com/
 [FFM]: https://farmfreshmushrooms.ca/
 [NAT]: https://naturelion.ca/about
 [PFE]: https://pfenningsfarms.ca/food-safety/
