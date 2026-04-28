@@ -62,6 +62,8 @@ Likely fit for us:
 
 Buyer note: choose PrimusGFS if a target buyer specifically accepts or prefers it, or if a certification body can confirm a clean mushroom scope for our exact operation.
 
+Detailed farm-specific analysis: [PrimusGFS assessment for a shiitake farm](primusgfs-shiitake.md).
+
 ### 3. GLOBALG.A.P.
 
 **Possible but should be confirmed before spending money.**
