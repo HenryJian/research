@@ -1,0 +1,787 @@
+{
+  "title": "Ontario restaurant mushroom-menu leads",
+  "subtitle": "Restaurants from restaurants.md with public menu evidence for shiitake, oyster, or maitake mushrooms. Simplified basemap for planning, not navigation.",
+  "index_title": "Restaurant Index",
+  "index_note": "Marker color shows menu species evidence.",
+  "footer": "Generated from source addresses in restaurants.md using address-level geocoding. Use restaurant/contact pages or map links for exact navigation.",
+  "width": 1600,
+  "height": 1000,
+  "map_left": 70,
+  "map_top": 92,
+  "map_width": 1080,
+  "map_height": 792,
+  "panel_left": 1188,
+  "panel_top": 92,
+  "panel_width": 342,
+  "panel_height": 792,
+  "index_row_height": 22,
+  "index_label_width": 38,
+  "bounds": {
+    "lat_min": 42.1,
+    "lat_max": 45.78,
+    "lon_min": -81.45,
+    "lon_max": -75.25
+  },
+  "categories": {
+    "Shiitake": {
+      "label": "Shiitake menu evidence",
+      "color": "#2563eb",
+      "order": 1
+    },
+    "Oyster": {
+      "label": "Oyster menu evidence",
+      "color": "#16a34a",
+      "order": 2
+    },
+    "Maitake": {
+      "label": "Maitake menu evidence",
+      "color": "#c2410c",
+      "order": 3
+    },
+    "Multiple species": {
+      "label": "Multiple species",
+      "color": "#9333ea",
+      "order": 4
+    }
+  },
+  "basemap": {
+    "polygons": [
+      {
+        "name": "Lake Erie",
+        "points": [
+          [
+            -83.7,
+            41.75
+          ],
+          [
+            -82.9,
+            41.86
+          ],
+          [
+            -82.0,
+            42.07
+          ],
+          [
+            -81.2,
+            42.24
+          ],
+          [
+            -80.42,
+            42.52
+          ],
+          [
+            -79.66,
+            42.72
+          ],
+          [
+            -78.92,
+            42.82
+          ],
+          [
+            -78.58,
+            42.68
+          ],
+          [
+            -79.02,
+            42.47
+          ],
+          [
+            -79.86,
+            42.22
+          ],
+          [
+            -80.78,
+            41.98
+          ],
+          [
+            -81.78,
+            41.76
+          ],
+          [
+            -82.86,
+            41.62
+          ],
+          [
+            -83.7,
+            41.75
+          ]
+        ]
+      },
+      {
+        "name": "Lake Ontario",
+        "points": [
+          [
+            -80.1,
+            43.02
+          ],
+          [
+            -79.68,
+            43.16
+          ],
+          [
+            -79.18,
+            43.33
+          ],
+          [
+            -78.55,
+            43.56
+          ],
+          [
+            -77.75,
+            43.85
+          ],
+          [
+            -76.9,
+            44.1
+          ],
+          [
+            -76.25,
+            44.16
+          ],
+          [
+            -76.05,
+            43.95
+          ],
+          [
+            -76.7,
+            43.68
+          ],
+          [
+            -77.5,
+            43.35
+          ],
+          [
+            -78.4,
+            43.05
+          ],
+          [
+            -79.08,
+            42.96
+          ],
+          [
+            -79.78,
+            42.88
+          ],
+          [
+            -80.1,
+            43.02
+          ]
+        ]
+      },
+      {
+        "name": "Georgian Bay",
+        "points": [
+          [
+            -81.8,
+            44.0
+          ],
+          [
+            -81.3,
+            44.6
+          ],
+          [
+            -80.5,
+            44.94
+          ],
+          [
+            -79.72,
+            44.6
+          ],
+          [
+            -79.98,
+            44.25
+          ],
+          [
+            -80.76,
+            44.24
+          ],
+          [
+            -81.54,
+            43.88
+          ],
+          [
+            -81.8,
+            44.0
+          ]
+        ]
+      }
+    ],
+    "lines": [
+      {
+        "name": "Hwy 401",
+        "points": [
+          [
+            -81.25,
+            42.98
+          ],
+          [
+            -80.75,
+            43.13
+          ],
+          [
+            -80.49,
+            43.43
+          ],
+          [
+            -79.88,
+            43.51
+          ],
+          [
+            -79.65,
+            43.59
+          ],
+          [
+            -79.38,
+            43.65
+          ],
+          [
+            -78.86,
+            43.9
+          ],
+          [
+            -77.57,
+            44.16
+          ],
+          [
+            -76.49,
+            44.23
+          ]
+        ],
+        "stroke": "#c7a35f",
+        "inner_stroke": "#fff4cf"
+      },
+      {
+        "name": "Hwy 403 / QEW",
+        "points": [
+          [
+            -80.75,
+            43.13
+          ],
+          [
+            -80.26,
+            43.14
+          ],
+          [
+            -79.87,
+            43.25
+          ],
+          [
+            -79.8,
+            43.33
+          ],
+          [
+            -79.65,
+            43.59
+          ],
+          [
+            -79.38,
+            43.65
+          ]
+        ],
+        "stroke": "#c7a35f",
+        "inner_stroke": "#fff4cf"
+      },
+      {
+        "name": "Hwy 416 / 417",
+        "points": [
+          [
+            -75.77,
+            44.73
+          ],
+          [
+            -75.72,
+            45.15
+          ],
+          [
+            -75.69,
+            45.42
+          ],
+          [
+            -75.87,
+            45.32
+          ],
+          [
+            -76.14,
+            45.3
+          ]
+        ],
+        "stroke": "#c7a35f",
+        "inner_stroke": "#fff4cf"
+      },
+      {
+        "name": "Ottawa River",
+        "points": [
+          [
+            -77.35,
+            45.22
+          ],
+          [
+            -76.68,
+            45.35
+          ],
+          [
+            -75.95,
+            45.42
+          ],
+          [
+            -75.68,
+            45.43
+          ],
+          [
+            -75.25,
+            45.54
+          ]
+        ],
+        "stroke": "#89bfd6",
+        "stroke_width": 4.2,
+        "opacity": 0.74
+      }
+    ],
+    "labels": [
+      {
+        "name": "Lake Erie",
+        "coordinate": [
+          -80.8,
+          42.18
+        ]
+      },
+      {
+        "name": "Lake Ontario",
+        "coordinate": [
+          -77.95,
+          43.55
+        ]
+      },
+      {
+        "name": "Georgian Bay",
+        "coordinate": [
+          -80.55,
+          44.62
+        ]
+      },
+      {
+        "name": "Ottawa River",
+        "coordinate": [
+          -76.3,
+          45.48
+        ],
+        "font_size": 14
+      }
+    ],
+    "places": [
+      {
+        "name": "Waterford",
+        "coordinate": [
+          -80.29,
+          42.93
+        ]
+      },
+      {
+        "name": "London",
+        "coordinate": [
+          -81.25,
+          42.98
+        ]
+      },
+      {
+        "name": "Stratford",
+        "coordinate": [
+          -80.98,
+          43.37
+        ]
+      },
+      {
+        "name": "Kitchener-Waterloo",
+        "coordinate": [
+          -80.5,
+          43.46
+        ]
+      },
+      {
+        "name": "Hamilton",
+        "coordinate": [
+          -79.87,
+          43.26
+        ]
+      },
+      {
+        "name": "Oakville",
+        "coordinate": [
+          -79.69,
+          43.45
+        ]
+      },
+      {
+        "name": "Mississauga",
+        "coordinate": [
+          -79.64,
+          43.59
+        ]
+      },
+      {
+        "name": "Toronto",
+        "coordinate": [
+          -79.38,
+          43.65
+        ]
+      },
+      {
+        "name": "Oshawa",
+        "coordinate": [
+          -78.86,
+          43.9
+        ]
+      },
+      {
+        "name": "Kingston",
+        "coordinate": [
+          -76.49,
+          44.23
+        ]
+      },
+      {
+        "name": "Ottawa",
+        "coordinate": [
+          -75.69,
+          45.42
+        ]
+      },
+      {
+        "name": "Kanata",
+        "coordinate": [
+          -75.91,
+          45.31
+        ]
+      },
+      {
+        "name": "Gloucester",
+        "coordinate": [
+          -75.61,
+          45.43
+        ]
+      }
+    ]
+  },
+  "points": [
+    {
+      "name": "The Lost Land",
+      "category": "Maitake",
+      "coordinate": {
+        "lat": 43.6513,
+        "lon": -79.3790195
+      },
+      "marker_offset": [
+        0,
+        -42
+      ]
+    },
+    {
+      "name": "Wynona",
+      "category": "Maitake",
+      "coordinate": {
+        "lat": 43.6670755,
+        "lon": -79.3446015
+      },
+      "marker_offset": [
+        40,
+        28
+      ]
+    },
+    {
+      "name": "Restaurant La Banane",
+      "category": "Maitake",
+      "coordinate": {
+        "lat": 43.6490277,
+        "lon": -79.4204846
+      },
+      "marker_offset": [
+        -38,
+        -8
+      ]
+    },
+    {
+      "name": "The Chase",
+      "category": "Multiple species",
+      "coordinate": {
+        "lat": 43.651056,
+        "lon": -79.379312
+      },
+      "marker_offset": [
+        28,
+        -24
+      ]
+    },
+    {
+      "name": "JADE Yorkville",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.6739966,
+        "lon": -79.3958955
+      },
+      "marker_offset": [
+        12,
+        -52
+      ]
+    },
+    {
+      "name": "Mister Maki Sushi Hand Rolls",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.2625519,
+        "lon": -79.9046049
+      },
+      "marker_offset": [
+        -24,
+        -18
+      ]
+    },
+    {
+      "name": "Rooftop Ottawa",
+      "category": "Oyster",
+      "coordinate": {
+        "lat": 45.4281525,
+        "lon": -75.6923663
+      },
+      "marker_offset": [
+        -28,
+        -28
+      ]
+    },
+    {
+      "name": "PLANTA Queen | Entertainment District",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.6506351,
+        "lon": -79.388204
+      },
+      "marker_offset": [
+        0,
+        38
+      ]
+    },
+    {
+      "name": "Alder",
+      "category": "Oyster",
+      "coordinate": {
+        "lat": 43.6467146,
+        "lon": -79.3980546
+      },
+      "marker_offset": [
+        -28,
+        18
+      ]
+    },
+    {
+      "name": "Moxies Hamilton",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.2441473,
+        "lon": -79.7552631
+      },
+      "marker_offset": [
+        24,
+        18
+      ]
+    },
+    {
+      "name": "Moxies Kanata",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 45.3096235,
+        "lon": -75.911893
+      },
+      "marker_offset": [
+        -34,
+        20
+      ]
+    },
+    {
+      "name": "Moxies Dixon Road",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.6898614,
+        "lon": -79.5907404
+      },
+      "marker_offset": [
+        -32,
+        -22
+      ]
+    },
+    {
+      "name": "Zoe's",
+      "category": "Oyster",
+      "coordinate": {
+        "lat": 45.4253644,
+        "lon": -75.6955164
+      },
+      "marker_offset": [
+        24,
+        -18
+      ]
+    },
+    {
+      "name": "Bluebird Restaurant & Bar",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.3716622,
+        "lon": -80.9835441
+      }
+    },
+    {
+      "name": "Shibui Japanese Eatery",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.703744,
+        "lon": -79.388506
+      },
+      "marker_offset": [
+        42,
+        -42
+      ]
+    },
+    {
+      "name": "Moxies Gloucester",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 45.4337025,
+        "lon": -75.6117909
+      },
+      "marker_offset": [
+        36,
+        22
+      ]
+    },
+    {
+      "name": "Moxies Kitchener",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.4209239,
+        "lon": -80.4425041
+      },
+      "marker_offset": [
+        24,
+        18
+      ]
+    },
+    {
+      "name": "Moxies Fairview",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.7787118,
+        "lon": -79.3434057
+      },
+      "marker_offset": [
+        28,
+        -18
+      ]
+    },
+    {
+      "name": "Moxies Square One",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.5921742,
+        "lon": -79.6409715
+      },
+      "marker_offset": [
+        24,
+        -18
+      ]
+    },
+    {
+      "name": "Moxies Argentia",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.598744,
+        "lon": -79.7833781
+      },
+      "marker_offset": [
+        -26,
+        18
+      ]
+    },
+    {
+      "name": "Em Oi Restaurant",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.2394511,
+        "lon": -79.8665184
+      },
+      "marker_offset": [
+        0,
+        38
+      ]
+    },
+    {
+      "name": "MARU Japanese Bistro",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.664783,
+        "lon": -79.3243067
+      },
+      "marker_offset": [
+        26,
+        58
+      ]
+    },
+    {
+      "name": "Bar Goa",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.650695,
+        "lon": -79.376532
+      },
+      "marker_offset": [
+        -28,
+        -26
+      ]
+    },
+    {
+      "name": "Milestones Waterloo",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.4393984,
+        "lon": -80.5632593
+      },
+      "marker_offset": [
+        -26,
+        -18
+      ]
+    },
+    {
+      "name": "Fresh Kitchen + Juice Bar Oakville",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.4460885,
+        "lon": -79.6681373
+      },
+      "marker_offset": [
+        -22,
+        -20
+      ]
+    },
+    {
+      "name": "Copper Branch Commerce Court",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.6481143,
+        "lon": -79.3795387
+      },
+      "marker_offset": [
+        36,
+        10
+      ]
+    },
+    {
+      "name": "Ramen Houzz Oakville",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.4799281,
+        "lon": -79.6553553
+      },
+      "marker_offset": [
+        24,
+        18
+      ]
+    }
+  ]
+}

@@ -34,3 +34,9 @@ Examples:
 # Python Environment
 
 For any Python code or Python-based tooling in this repository, use the local `.venv` environment rather than the system Python.
+
+If Python tooling needs packages that are not already available in `.venv`, install them into this repository environment with `uv add <package>` so `pyproject.toml`, `uv.lock`, and the local virtualenv stay in sync.
+
+# Local Rendering
+
+When repository tooling creates local SVG or HTML research artifacts that need a durable PNG/PDF output, headless Google Chrome is an acceptable renderer.

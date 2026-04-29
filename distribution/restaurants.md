@@ -2,6 +2,12 @@
 
 Initial verification against public menu/contact pages on 2026-04-12. Additional shiitake-focused scan added on 2026-04-29. Menus can change seasonally.
 
+## Rough Location Map
+
+![Rough restaurant mushroom-menu lead location map](resources/restaurant_locations.png)
+
+Map note: this is an Ontario-only rough map of the restaurant leads in the table below with public menu evidence for shiitake, oyster, or maitake mushrooms. Use it for outreach and delivery planning, not navigation. The point data and published map image are in `resources/`; generator scratch files are written under `../temp/distribution/restaurant-map/`.
+
 | Restaurant | Address | Email | Phone | Matching menu item(s) | Menu URL | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
 | The Lost Land | 146 Yonge Street, Toronto, ON M5C 1X6 | info@thelostland.ca | 647-907-7819 | `Fried Maitake` | [Menu](https://www.thelostland.ca/menu/) | [Menu](https://www.thelostland.ca/menu/), [FAQ/contact](https://www.thelostland.ca/faq/) |
