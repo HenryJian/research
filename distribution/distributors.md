@@ -12,11 +12,9 @@ Ontario-location filter: every distributor listed below has an Ontario address, 
 
 ## Rough Location Map
 
-![Rough distributor supplier location map](distributor_locations.png)
+![Rough distributor supplier location map](resources/distributor_locations.png)
 
-Vector version: [distributor_locations.svg](distributor_locations.svg)
-
-Map note: this is an Ontario-only rough map of representative leads, not a full refresh of every table row. Use the table map links for exact lead-by-lead locations, especially for the newer Southwestern Ontario leads.
+Map note: this is an Ontario-only rough map of the active non-OFTB distributor leads in the first table. It intentionally excludes the OFTB reference-only buyers because of the current Gambles relationship. Use the table map links for exact lead-by-lead locations. The point data and published map image are in `resources/`; generator scratch files are written under `../temp/distribution/distributor-map/`.
 
 ### Not Listed In OFTB
 

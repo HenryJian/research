@@ -1,6 +1,6 @@
 # Ontario Restaurants With Shiitake, Oyster, or Maitake Mushrooms
 
-Verified against public menu/contact pages on 2026-04-12. Menus can change seasonally.
+Initial verification against public menu/contact pages on 2026-04-12. Additional shiitake-focused scan added on 2026-04-29. Menus can change seasonally.
 
 | Restaurant | Address | Email | Phone | Matching menu item(s) | Menu URL | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -24,6 +24,13 @@ Verified against public menu/contact pages on 2026-04-12. Menus can change seaso
 | Moxies Fairview | 1800 Sheppard Ave. East, North York, ON M2J 5A7 | fairviewgm@moxies.eatz.ca | 647-426-6677 | `Mushroom Zen Bowl` with crispy `shiitake`; `Miso Ramen` with marinated `shiitake mushrooms` | [Menu](https://moxies.com/restaurants/toronto-fairview-mall/menus/) | [Menu](https://moxies.com/restaurants/toronto-fairview-mall/menus/), [Location](https://moxies.com/restaurants/toronto-fairview-mall/) |
 | Moxies Square One | 100 City Centre Drive, Mississauga, ON L5B 2C9 | gmsq1@moxiespcl.com | 905-276-6555 | `Mushroom Zen Bowl` with crispy `shiitake`; `Miso Ramen` with marinated `shiitake mushrooms` | [Menu](https://moxies.com/restaurants/mississauga-square-one/menus/) | [Menu](https://moxies.com/restaurants/mississauga-square-one/menus/), [Location](https://moxies.com/restaurants/mississauga-square-one/) |
 | Moxies Argentia | 2959 Argentia Road, Mississauga, ON L5N 0A2 | gmarg@moxiespcl.com | 905-567-5511 | `Mushroom Zen Bowl` with crispy `shiitake`; `Miso Ramen` with marinated `shiitake mushrooms` | [Menu](https://moxies.com/restaurants/mississauga-argentia/menus/) | [Menu](https://moxies.com/restaurants/mississauga-argentia/menus/), [Location](https://moxies.com/restaurants/mississauga-argentia/) |
+| Em Oi Restaurant | 542 Upper Wellington St, Hamilton, ON L9A 3P5 | Not publicly listed | 905-387-4582 | `Cha Gio Chay Vegetarian Spring Roll` with `shiitake mushrooms` | [Menu](https://emoirestaurants.ca/) | [Home/menu/contact](https://emoirestaurants.ca/) |
+| MARU Japanese Bistro | 1402 Queen Street E, Unit B, Toronto, ON M4L 1C9 | Not publicly listed | 416-466-4666 | `Salmon Pressed Sushi` with `Shiitake Mushroom` | [Takeout menu](https://www.marubistro.com/menus) | [Takeout menu](https://www.marubistro.com/menus), [Contact/menu](https://www.marubistro.com/menu) |
+| Bar Goa | 36 Toronto St., Toronto, ON M5C 2C5 | Contact form only | 416-866-8316 | Vegetarian omakase `Chai & Cutlet` with chanterelle, porcini, and `shiitake mushroom` in galouti kebab | [Omakase menu](https://www.bargoa.ca/menu/main/) | [Menu](https://www.bargoa.ca/menu/main/), [Hours/location](https://www.bargoa.ca/location/bar-goa/), [Contact form](https://www.bargoa.ca/contact/) |
+| Milestones Waterloo | 410 The Boardwalk, Waterloo, ON N2T 0A6 | Contact form only | 519-579-4949 | `Shiitake Teriyaki Bowl`; noodle/ramen items with `shiitake mushrooms` or roasted `shiitake` | [Menu](https://milestonesrestaurants.com/menus/waterloo/) | [Menu](https://milestonesrestaurants.com/menus/waterloo/), [Location](https://milestonesrestaurants.com/locations/waterloo/), [Ingredient guide](https://milestonesrestaurants.com/wp-content/uploads/2025/11/Core-Ingredient-Listing-November-25.pdf) |
+| Fresh Kitchen + Juice Bar Oakville | 215 Lakeshore Road East, Oakville, ON L6J 1H7 | Contact form only | 905-845-8219 | `Crispy Dumplings` with spinach, `shiitake` and pine nut | [Menu](https://www.freshkitchens.ca/en/menu/lunch-dinner.html) | [Menu](https://www.freshkitchens.ca/en/menu/lunch-dinner.html), [Location](https://www.freshkitchens.ca/en/locations/on/oakville/215-lakeshore-road-east) |
+| Copper Branch Commerce Court | 199 Bay Street, Commerce Court, Toronto, ON M5L 1E2 | Contact form only | 416-792-2982 | `Shiitake Teriyaki Burger`; power bowls offer `Shiitake Teriyaki` as a protein option | [Menu](https://eatcopperbranch.com/menu/) | [Menu](https://eatcopperbranch.com/menu/), [Location](https://eatcopperbranch.com/fr/restaurants/commerce-court/), [Contact form](https://eatcopperbranch.com/contact/) |
+| Ramen Houzz Oakville | 511 Maple Grove Dr, Oakville, ON L6J 4W3 | Not publicly listed | 289-813-2912 | `Vegetarian Shio Ramen` with `shiitake mushrooms` | [Menu item](https://ramenhouzzoakville.com/location/oakville/313-vegetarian-shio-ramen/) | [Menu item/location](https://ramenhouzzoakville.com/location/oakville/313-vegetarian-shio-ramen/) |
 
 ## Notes
 
@@ -31,3 +38,5 @@ Verified against public menu/contact pages on 2026-04-12. Menus can change seaso
 - `King Oyster Mushroom` was treated as a match for the oyster-mushroom requirement.
 - `Zoe's` uses the parent Fairmont Chateau Laurier hotel email on the official hotel listing rather than a separate restaurant-only email.
 - `Bluebird Restaurant & Bar` lists phone/address on its menu page; the public email used here comes from the Stratford Festival dining directory.
+- `Not publicly listed` or `Contact form only` means no direct restaurant email was found on the public pages checked during this scan.
+- `Milestones Waterloo` and `Copper Branch Commerce Court` are useful proof of shiitake menu demand, but confirm whether their shiitake items are purchased as fresh mushrooms, prepared/processed shiitake products, or centrally supplied chain ingredients before treating them as direct fresh-shiitake prospects.

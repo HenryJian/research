@@ -1,0 +1,4 @@
+interface:
+  display_name: "Make Map Plot"
+  short_description: "Create clean research map plots"
+  default_prompt: "Use $make-map-plot to create or update a repository research map, publish assets under resources/, and keep intermediate files under temp/."
