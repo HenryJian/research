@@ -1,9 +1,9 @@
 {
   "title": "Ontario distributor buyer leads (non-OFTB)",
-  "subtitle": "All plotted points are active non-Ontario-Food-Terminal distributor leads from distributors.md. Simplified basemap for planning, not navigation.",
+  "subtitle": "All plotted points are active non-Ontario-Food-Terminal distributor leads from distributors.md. Green context marker shows the farm area in Waterford.",
   "index_title": "Lead Index",
   "index_note": "OFTB-listed reference rows are intentionally excluded.",
-  "footer": "Generated from public-address coordinates in distributors.md. Multiple-location companies use the representative Ontario address listed in the table.",
+  "footer": "Generated from public-address coordinates in distributors.md. Multiple-location companies use the representative Ontario address listed in the table. Waterford marker uses town-centre coordinates for farm-area context.",
   "categories": {
     "High": {
       "label": "High priority",
@@ -63,6 +63,7 @@
       {"name": "Brantford", "coordinate": [-80.26, 43.14]},
       {"name": "Guelph", "coordinate": [-80.25, 43.54]},
       {"name": "Hamilton", "coordinate": [-79.87, 43.26]},
+      {"name": "Waterford (farm area)", "coordinate": [-80.28296, 42.9334], "radius": 4.6, "fill": "#15803d", "opacity": 0.95, "label_dx": 7, "label_dy": -8, "font_size": 13, "font_weight": "700", "label_fill": "#166534", "label_opacity": 0.96},
       {"name": "Burlington", "coordinate": [-79.8, 43.33]},
       {"name": "Mississauga", "coordinate": [-79.64, 43.59]},
       {"name": "Toronto", "coordinate": [-79.38, 43.65]},
@@ -81,6 +82,7 @@
     {"name": "Mister Produce", "category": "Medium", "coordinate": {"lat": 43.6066917, "lon": -79.5863848}, "marker_offset": [-34, -18]},
     {"name": "Deluxe Produce", "category": "Medium", "coordinate": {"lat": 43.7807801, "lon": -79.4718093}, "marker_offset": [16, -16]},
     {"name": "Mike & Mike's Organics / Fresh Direct Produce Group", "category": "Medium", "coordinate": {"lat": 43.7848982, "lon": -79.5923855}, "marker_offset": [20, -22]},
+    {"name": "100km Foods", "category": "Medium", "coordinate": {"lat": 43.7058, "lon": -79.4708}, "marker_offset": [-38, -10]},
     {"name": "Fresh Start Foods", "category": "Medium", "coordinate": {"lat": 43.5354725, "lon": -79.9037545}},
     {"name": "Bamford Produce", "category": "Medium", "coordinate": {"lat": 43.601012, "lon": -79.5868871}, "marker_offset": [-14, 24]},
     {"name": "Morton Food Service", "category": "Medium", "coordinate": {"lat": 42.25, "lon": -82.968}},

@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 
-"""Render a static SVG map plot from a small JSON config.
+"""Render a static map plot from a small JSON config.
 
 Point records must provide:
 - coordinate: {"lat": number, "lon": number} or [lat, lon]
 - name: display name
 - category: category key used for marker style and legend
 
-The script writes SVG only. Render PNGs from the SVG with a browser or another
-project-approved renderer so the final image can live in the topic resources/
-directory while SVG scratch output stays under temp/.
+The script can write SVG and can write PNG directly with Pillow. Keep final
+document-facing PNGs in topic resources/ and intermediate SVGs under temp/.
 """
 
 from __future__ import annotations
@@ -40,6 +39,10 @@ def escape(value: object) -> str:
 
 def shorten(value: str, width: int) -> str:
     return escape(textwrap.shorten(value, width=width, placeholder="..."))
+
+
+def shorten_plain(value: str, width: int) -> str:
+    return textwrap.shorten(value, width=width, placeholder="...")
 
 
 def mercator_y(lat: float) -> float:
@@ -254,9 +257,18 @@ def render_svg(config: dict[str, Any]) -> str:
         for place in basemap.get("places", []):
             lon, lat = parse_lon_lat_pair(place["coordinate"], "Basemap place")
             x, y = project(lon, lat)
-            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.2" fill="#6b7280" opacity="0.72" />')
+            radius = float(place.get("radius", 2.2))
+            fill = escape(place.get("fill", "#6b7280"))
+            opacity = float(place.get("opacity", 0.72))
+            label_dx = float(place.get("label_dx", 5))
+            label_dy = float(place.get("label_dy", -5))
+            font_size = int(place.get("font_size", 12))
+            font_weight = escape(place.get("font_weight", "400"))
+            label_fill = escape(place.get("label_fill", "#4b5563"))
+            label_opacity = float(place.get("label_opacity", 0.88))
+            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius}" fill="{fill}" opacity="{opacity}" />')
             parts.append(
-                f'<text x="{x + 5:.1f}" y="{y - 5:.1f}" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#4b5563" opacity="0.88">{escape(place["name"])}</text>'
+                f'<text x="{x + label_dx:.1f}" y="{y + label_dy:.1f}" font-family="Helvetica, Arial, sans-serif" font-size="{font_size}" font-weight="{font_weight}" fill="{label_fill}" opacity="{label_opacity}">{escape(place["name"])}</text>'
             )
 
     for index, point in enumerate(points, start=1):
@@ -324,16 +336,229 @@ def render_svg(config: dict[str, Any]) -> str:
     return "\n".join(parts) + "\n"
 
 
+def render_png(config: dict[str, Any], output_path: Path) -> None:
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError as exc:
+        raise RuntimeError("PNG rendering requires Pillow in the active Python environment") from exc
+
+    points = normalize_points(config["points"])
+    styles = category_styles(points, config)
+    category_order = sorted(styles, key=lambda category: (float(styles[category]["order"]), category))
+
+    scale = int(config.get("png_scale", 2))
+    width = int(config.get("width", 1400))
+    height = int(config.get("height", 980))
+    map_left = int(config.get("map_left", 70))
+    map_top = int(config.get("map_top", 92))
+    map_width = int(config.get("map_width", 900))
+    map_height = int(config.get("map_height", 792))
+    map_bottom = map_top + map_height
+    panel_left = int(config.get("panel_left", map_left + map_width + 38))
+    panel_top = int(config.get("panel_top", map_top))
+    panel_width = int(config.get("panel_width", width - panel_left - 70))
+    panel_height = int(config.get("panel_height", map_height))
+
+    def s(value: float) -> int:
+        return int(round(value * scale))
+
+    def color(value: object, alpha: float = 1.0) -> tuple[int, int, int, int]:
+        text = str(value).strip()
+        if text.startswith("#"):
+            text = text[1:]
+        if len(text) == 3:
+            text = "".join(ch * 2 for ch in text)
+        red = int(text[0:2], 16)
+        green = int(text[2:4], 16)
+        blue = int(text[4:6], 16)
+        return red, green, blue, max(0, min(255, int(round(alpha * 255))))
+
+    def font(size: int, weight: str = "400", italic: bool = False) -> Any:
+        candidates = []
+        if weight in {"700", "bold", "Bold"} and italic:
+            candidates = [
+                "/System/Library/Fonts/Supplemental/Arial Bold Italic.ttf",
+                "/Library/Fonts/Arial Bold Italic.ttf",
+            ]
+        elif weight in {"700", "bold", "Bold"}:
+            candidates = [
+                "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+                "/Library/Fonts/Arial Bold.ttf",
+                "/System/Library/Fonts/Supplemental/Arial.ttf",
+            ]
+        elif italic:
+            candidates = [
+                "/System/Library/Fonts/Supplemental/Arial Italic.ttf",
+                "/Library/Fonts/Arial Italic.ttf",
+                "/System/Library/Fonts/Supplemental/Arial.ttf",
+            ]
+        else:
+            candidates = [
+                "/System/Library/Fonts/Supplemental/Arial.ttf",
+                "/Library/Fonts/Arial.ttf",
+            ]
+        for candidate in candidates:
+            try:
+                return ImageFont.truetype(candidate, s(size))
+            except OSError:
+                continue
+        return ImageFont.load_default(size=s(size))
+
+    def text_size(draw: Any, text: str, text_font: Any) -> tuple[float, float]:
+        bbox = draw.textbbox((0, 0), text, font=text_font)
+        return bbox[2] - bbox[0], bbox[3] - bbox[1]
+
+    lats = [float(point["lat"]) for point in points]
+    lons = [float(point["lon"]) for point in points]
+    bounds = config.get("bounds")
+    if isinstance(bounds, dict):
+        lat_min = float(bounds["lat_min"])
+        lat_max = float(bounds["lat_max"])
+        lon_min = float(bounds["lon_min"])
+        lon_max = float(bounds["lon_max"])
+    else:
+        lat_min = min(lats) - float(config.get("lat_padding", 0.35))
+        lat_max = max(lats) + float(config.get("lat_padding_top", 0.30))
+        lon_min = min(lons) - float(config.get("lon_padding", 0.45))
+        lon_max = max(lons) + float(config.get("lon_padding_right", 0.32))
+
+    merc_min = mercator_y(lat_min)
+    merc_max = mercator_y(lat_max)
+
+    def project(lon: float, lat: float) -> tuple[float, float]:
+        x = map_left + (lon - lon_min) * map_width / (lon_max - lon_min)
+        y = map_bottom - (mercator_y(lat) - merc_min) * map_height / (merc_max - merc_min)
+        return x, y
+
+    image = Image.new("RGB", (s(width), s(height)), "#fbfaf4")
+    draw = ImageDraw.Draw(image)
+
+    title_font = font(28, "700")
+    subtitle_font = font(15)
+    draw.text((s(map_left), s(24)), str(config.get("title", "Map plot")), font=title_font, fill="#24303a")
+    subtitle = config.get("subtitle")
+    if subtitle:
+        draw.text((s(map_left), s(61)), str(subtitle), font=subtitle_font, fill="#57636c")
+
+    map_layer = Image.new("RGBA", (s(width), s(height)), (0, 0, 0, 0))
+    map_draw = ImageDraw.Draw(map_layer)
+    map_box = [s(map_left), s(map_top), s(map_left + map_width), s(map_top + map_height)]
+    map_draw.rounded_rectangle(map_box, radius=s(18), fill=color("#f4efe4"), outline=color("#d4cbbb"), width=s(1.5))
+
+    basemap = config.get("basemap", {})
+    if isinstance(basemap, dict):
+        for polygon in basemap.get("polygons", []):
+            coords = [(s(x), s(y)) for x, y in [project(*parse_lon_lat_pair(point, "Basemap polygon point")) for point in polygon["points"]]]
+            map_draw.polygon(coords, fill=color(polygon.get("fill", "#cfe6f4"), float(polygon.get("opacity", 0.96))))
+            map_draw.line(coords + [coords[0]], fill=color(polygon.get("stroke", "#96bfd3")), width=s(float(polygon.get("stroke_width", 1.5))), joint="curve")
+
+        for line in basemap.get("lines", []):
+            coords = [(s(x), s(y)) for x, y in [project(*parse_lon_lat_pair(point, "Basemap line point")) for point in line["points"]]]
+            map_draw.line(coords, fill=color(line.get("stroke", "#c7a35f"), float(line.get("opacity", 0.78))), width=s(float(line.get("stroke_width", 3.2))), joint="curve")
+            if "inner_stroke" in line:
+                map_draw.line(coords, fill=color(line["inner_stroke"], float(line.get("inner_opacity", 0.9))), width=s(float(line.get("inner_stroke_width", 1.3))), joint="curve")
+
+        for label in basemap.get("labels", []):
+            lon, lat = parse_lon_lat_pair(label["coordinate"], "Basemap label")
+            x, y = project(lon, lat)
+            label_font = font(int(label.get("font_size", 16)), italic=label.get("font_style", "italic") == "italic")
+            label_text = str(label["name"])
+            label_width, label_height = text_size(map_draw, label_text, label_font)
+            map_draw.text((s(x) - label_width / 2, s(y) - label_height / 2), label_text, font=label_font, fill=color(label.get("fill", "#4a7c93"), float(label.get("opacity", 0.86))))
+
+        for place in basemap.get("places", []):
+            lon, lat = parse_lon_lat_pair(place["coordinate"], "Basemap place")
+            x, y = project(lon, lat)
+            radius = float(place.get("radius", 2.2))
+            place_fill = place.get("fill", "#6b7280")
+            opacity = float(place.get("opacity", 0.72))
+            label_dx = float(place.get("label_dx", 5))
+            label_dy = float(place.get("label_dy", -5))
+            font_size = int(place.get("font_size", 12))
+            font_weight = str(place.get("font_weight", "400"))
+            label_fill = place.get("label_fill", "#4b5563")
+            label_opacity = float(place.get("label_opacity", 0.88))
+            map_draw.ellipse([s(x - radius), s(y - radius), s(x + radius), s(y + radius)], fill=color(place_fill, opacity))
+            map_draw.text((s(x + label_dx), s(y + label_dy)), str(place["name"]), font=font(font_size, font_weight), fill=color(label_fill, label_opacity))
+
+    for index, point in enumerate(points, start=1):
+        actual_x, actual_y = project(float(point["lon"]), float(point["lat"]))
+        marker_x = actual_x + float(point["marker_dx"])
+        marker_y = actual_y + float(point["marker_dy"])
+        fill = styles[str(point["category"])]["fill"]
+        if abs(marker_x - actual_x) > 0.1 or abs(marker_y - actual_y) > 0.1:
+            map_draw.line((s(actual_x), s(actual_y), s(marker_x), s(marker_y)), fill=color(fill, 0.58), width=s(1.1))
+            map_draw.ellipse([s(actual_x - 3), s(actual_y - 3), s(actual_x + 3), s(actual_y + 3)], fill=color(fill, 0.62))
+        map_draw.ellipse([s(marker_x - 12), s(marker_y - 12), s(marker_x + 12), s(marker_y + 12)], fill=color("#fffdf7"))
+        map_draw.ellipse([s(marker_x - 9.5), s(marker_y - 9.5), s(marker_x + 9.5), s(marker_y + 9.5)], fill=color(fill))
+        number_font = font(10, "700")
+        number = str(index)
+        number_width, number_height = text_size(map_draw, number, number_font)
+        map_draw.text((s(marker_x) - number_width / 2, s(marker_y) - number_height / 2), number, font=number_font, fill="#ffffff")
+
+    mask = Image.new("L", (s(width), s(height)), 0)
+    mask_draw = ImageDraw.Draw(mask)
+    mask_draw.rounded_rectangle(map_box, radius=s(18), fill=255)
+    image = Image.composite(Image.alpha_composite(image.convert("RGBA"), map_layer).convert("RGB"), image, mask)
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle(map_box, radius=s(18), outline="#d4cbbb", width=s(1.5))
+
+    panel_box = [s(panel_left), s(panel_top), s(panel_left + panel_width), s(panel_top + panel_height)]
+    draw.rounded_rectangle(panel_box, radius=s(18), fill="#fffdf7", outline="#d8d2c3", width=s(1.3))
+    draw.text((s(panel_left + 22), s(panel_top + 14)), str(config.get("index_title", "Index")), font=font(18, "700"), fill="#24303a")
+    index_note = config.get("index_note")
+    if index_note:
+        draw.text((s(panel_left + 22), s(panel_top + 45)), str(index_note), font=font(12), fill="#64717a")
+
+    legend_y = panel_top + 94
+    for offset, category in enumerate(category_order):
+        y = legend_y + offset * 25
+        style = styles[category]
+        draw.ellipse([s(panel_left + 23), s(y - 7), s(panel_left + 37), s(y + 7)], fill=style["fill"])
+        draw.text((s(panel_left + 46), s(y - 9)), str(style["label"]), font=font(13), fill="#24303a")
+
+    list_y = panel_top + 190
+    row_height = float(config.get("index_row_height", 24))
+    max_label_width = int(config.get("index_label_width", 42))
+    for index, point in enumerate(points, start=1):
+        y = list_y + (index - 1) * row_height
+        style = styles[str(point["category"])]
+        label = shorten_plain(f'{index:02d} {point["name"]}', max_label_width)
+        draw.ellipse([s(panel_left + 21.5), s(y - 12.5), s(panel_left + 38.5), s(y + 4.5)], fill=style["fill"])
+        item_font = font(7.5, "700")
+        index_text = str(index)
+        index_width, index_height = text_size(draw, index_text, item_font)
+        draw.text((s(panel_left + 30) - index_width / 2, s(y - 4) - index_height / 2), index_text, font=item_font, fill="#ffffff")
+        draw.text((s(panel_left + 47), s(y - 12)), label, font=font(12), fill="#24303a")
+
+    footer = config.get("footer")
+    if footer:
+        draw.text((s(map_left), s(height - 48)), str(footer), font=font(12), fill="#68757d")
+
+    if scale != 1:
+        image = image.resize((width, height), Image.Resampling.LANCZOS)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    image.save(output_path)
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Render a generic category map plot SVG from JSON.")
+    parser = argparse.ArgumentParser(description="Render a generic category map plot from JSON.")
     parser.add_argument("config", type=Path, help="Path to map config JSON")
-    parser.add_argument("--output-svg", type=Path, required=True, help="SVG path to write")
+    parser.add_argument("--output-svg", type=Path, help="SVG path to write")
+    parser.add_argument("--output-png", type=Path, help="PNG path to write using Pillow")
     args = parser.parse_args()
 
+    if not args.output_svg and not args.output_png:
+        parser.error("At least one of --output-svg or --output-png is required")
+
     config = load_config(args.config)
-    args.output_svg.parent.mkdir(parents=True, exist_ok=True)
-    args.output_svg.write_text(render_svg(config), encoding="utf-8")
-    print(f"Wrote {args.output_svg}")
+    if args.output_svg:
+        args.output_svg.parent.mkdir(parents=True, exist_ok=True)
+        args.output_svg.write_text(render_svg(config), encoding="utf-8")
+        print(f"Wrote {args.output_svg}")
+    if args.output_png:
+        render_png(config, args.output_png)
+        print(f"Wrote {args.output_png}")
 
 
 if __name__ == "__main__":

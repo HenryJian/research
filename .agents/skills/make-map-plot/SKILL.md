@@ -13,7 +13,7 @@ Create practical map plots for this farm research repository. Keep final user-fa
 
 1. Identify the document, map purpose, and inclusion rules before plotting. For buyer lead maps, respect each file's scope rules, exclusions, and current relationship constraints.
 2. Put durable point/config data in the topic directory's `resources/` subdirectory. Each point must provide `coordinate`, `name`, and `category`.
-3. Use `scripts/make_map_plot.py` from this skill to render a temporary SVG from the JSON config. Store only durable, document-facing assets in `resources/`, usually a PNG referenced by markdown. Store intermediate SVGs, geocode caches, downloaded geographic data, render screenshots, and raw scratch outputs under `temp/<topic>/<plot-name>/`.
+3. Use `scripts/make_map_plot.py` from this skill to render the JSON config. Prefer its Pillow-backed `--output-png` path for durable PNGs. Use `--output-svg` when an editable/intermediate SVG is useful. Store only durable, document-facing assets in `resources/`, usually a PNG referenced by markdown. Store intermediate SVGs, geocode caches, downloaded geographic data, render screenshots, and raw scratch outputs under `temp/<topic>/<plot-name>/`.
 4. Do not invent locations. Use source addresses, cached coordinates, documented manual fallback coordinates, or current geocoding. If network geocoding is needed and sandbox DNS fails, request escalation for that command.
 5. Include a real geographic context layer: a basemap, simplified water/land/city/road layer, or other meaningful geography. A bare latitude-longitude grid is not enough unless the user explicitly asks for one.
 6. For dense maps, use numbered markers plus a side index instead of overlapping long labels. Include a legend and a short note that the map is for planning, not navigation.
@@ -53,7 +53,15 @@ Commit the generator, `resources/` assets, and markdown changes when appropriate
 
 ## Rendering
 
-First render SVG from config:
+Render a PNG directly with Python/Pillow:
+
+```bash
+.venv/bin/python .agents/skills/make-map-plot/scripts/make_map_plot.py \
+  /path/to/topic/resources/map_points.json \
+  --output-png /path/to/topic/resources/plot-name.png
+```
+
+Optionally render SVG from config:
 
 ```bash
 .venv/bin/python .agents/skills/make-map-plot/scripts/make_map_plot.py \
@@ -61,7 +69,7 @@ First render SVG from config:
   --output-svg /path/to/repo/temp/topic/plot-name/map.svg
 ```
 
-For an SVG-backed static plot, render with headless Chrome or another existing repo tool. Example:
+If the Pillow render is not sufficient for a specific graphic, an SVG-backed static plot can still be rendered with headless Chrome or another existing repo tool. Example:
 
 ```bash
 '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \
