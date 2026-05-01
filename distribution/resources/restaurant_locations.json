@@ -3,7 +3,7 @@
   "subtitle": "Restaurants from restaurants.md with public menu evidence for shiitake, oyster, or maitake mushrooms. Simplified basemap for planning, not navigation.",
   "index_title": "Restaurant Index",
   "index_note": "Marker color shows menu species evidence.",
-  "footer": "Generated from source addresses in restaurants.md using address-level geocoding. Use restaurant/contact pages or map links for exact navigation.",
+  "footer": "Generated from source addresses in restaurants.md using address-level geocoding or documented manual fallback coordinates. Use restaurant/contact pages for exact navigation.",
   "width": 1600,
   "height": 1000,
   "map_left": 70,
@@ -14,12 +14,12 @@
   "panel_top": 92,
   "panel_width": 342,
   "panel_height": 792,
-  "index_row_height": 22,
-  "index_label_width": 38,
+  "index_row_height": 15,
+  "index_label_width": 36,
   "bounds": {
     "lat_min": 42.1,
     "lat_max": 45.78,
-    "lon_min": -81.45,
+    "lon_min": -83.25,
     "lon_max": -75.25
   },
   "categories": {
@@ -377,10 +377,31 @@
         ]
       },
       {
+        "name": "Windsor",
+        "coordinate": [
+          -83.04,
+          42.31
+        ]
+      },
+      {
         "name": "London",
         "coordinate": [
           -81.25,
           42.98
+        ]
+      },
+      {
+        "name": "Brantford",
+        "coordinate": [
+          -80.26,
+          43.14
+        ]
+      },
+      {
+        "name": "Guelph",
+        "coordinate": [
+          -80.25,
+          43.54
         ]
       },
       {
@@ -777,6 +798,174 @@
       "coordinate": {
         "lat": 43.4799281,
         "lon": -79.6553553
+      },
+      "marker_offset": [
+        24,
+        18
+      ]
+    },
+    {
+      "name": "Garlic's of London",
+      "category": "Multiple species",
+      "coordinate": {
+        "lat": 42.9864,
+        "lon": -81.2496
+      },
+      "marker_offset": [
+        30,
+        -20
+      ]
+    },
+    {
+      "name": "Cintro on Wellington",
+      "category": "Multiple species",
+      "coordinate": {
+        "lat": 42.9961,
+        "lon": -81.2536
+      },
+      "marker_offset": [
+        -38,
+        -20
+      ]
+    },
+    {
+      "name": "Bear & Frankies",
+      "category": "Maitake",
+      "coordinate": {
+        "lat": 42.9826,
+        "lon": -81.2518
+      },
+      "marker_offset": [
+        0,
+        34
+      ]
+    },
+    {
+      "name": "Asher's Restaurant & Patio",
+      "category": "Multiple species",
+      "coordinate": {
+        "lat": 43.0167,
+        "lon": -81.2762
+      },
+      "marker_offset": [
+        -30,
+        -30
+      ]
+    },
+    {
+      "name": "Plaza Sushi Masonville",
+      "category": "Multiple species",
+      "coordinate": {
+        "lat": 43.0269,
+        "lon": -81.2797
+      },
+      "marker_offset": [
+        28,
+        -40
+      ]
+    },
+    {
+      "name": "Milestones South London",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 42.9293,
+        "lon": -81.2817
+      },
+      "marker_offset": [
+        -24,
+        20
+      ]
+    },
+    {
+      "name": "Nico Walkerville",
+      "category": "Oyster",
+      "coordinate": {
+        "lat": 42.3207,
+        "lon": -83.0116
+      },
+      "marker_offset": [
+        -18,
+        -26
+      ]
+    },
+    {
+      "name": "Kona Sushi Windsor",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 42.3214,
+        "lon": -83.0154
+      },
+      "marker_offset": [
+        28,
+        22
+      ]
+    },
+    {
+      "name": "Crafty Ramen Kitchener",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.4513,
+        "lon": -80.4945
+      },
+      "marker_offset": [
+        30,
+        -28
+      ]
+    },
+    {
+      "name": "Crafty Ramen Guelph",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.5445,
+        "lon": -80.249
+      },
+      "marker_offset": [
+        -30,
+        -20
+      ]
+    },
+    {
+      "name": "Grand Trunk Saloon",
+      "category": "Multiple species",
+      "coordinate": {
+        "lat": 43.4515,
+        "lon": -80.4916
+      },
+      "marker_offset": [
+        -30,
+        22
+      ]
+    },
+    {
+      "name": "Pokehana",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.5432,
+        "lon": -80.2482
+      },
+      "marker_offset": [
+        30,
+        18
+      ]
+    },
+    {
+      "name": "The Healthy Rabbit",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.1397,
+        "lon": -80.2676
+      },
+      "marker_offset": [
+        -24,
+        -18
+      ]
+    },
+    {
+      "name": "Devlin's Country Bistro",
+      "category": "Shiitake",
+      "coordinate": {
+        "lat": 43.091,
+        "lon": -80.3135
       },
       "marker_offset": [
         24,
