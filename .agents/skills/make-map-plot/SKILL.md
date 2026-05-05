@@ -16,7 +16,11 @@ Create practical map plots for this farm research repository. Keep final user-fa
 3. Use `scripts/make_map_plot.py` from this skill to render the JSON config. Prefer its Pillow-backed `--output-png` path for durable PNGs. Use `--output-svg` when an editable/intermediate SVG is useful. Store only durable, document-facing assets in `resources/`, usually a PNG referenced by markdown. Store intermediate SVGs, geocode caches, downloaded geographic data, render screenshots, and raw scratch outputs under `temp/<topic>/<plot-name>/`.
 4. Do not invent locations. Use source addresses, cached coordinates, documented manual fallback coordinates, or current geocoding. If network geocoding is needed and sandbox DNS fails, request escalation for that command.
 5. Include a real geographic context layer: a basemap, simplified water/land/city/road layer, or other meaningful geography. A bare latitude-longitude grid is not enough unless the user explicitly asks for one.
-6. For dense maps, use numbered markers plus a side index instead of overlapping long labels. Include a legend and a short note that the map is for planning, not navigation.
+   - Keep operational maps north-up: higher latitude renders higher on the image, so up is north and down is south.
+   - For maps where recognizable geography matters, set `"preserve_aspect": true` and explicit `bounds` so lake/shoreline shapes are not stretched to fill the plot box.
+   - Add `"north_arrow": true` or a small `north_arrow` object when orientation should be obvious in the final document.
+   - Prefer more coastline vertices over rough triangles for Great Lakes shapes; simplified is fine, but the water bodies should read as the actual lake, not as a generic backdrop.
+6. For dense maps, use numbered markers plus a side index instead of overlapping long labels. Enable `"avoid_marker_overlap": true` and set `"marker_min_distance"` when clusters are tight enough that numbered pins could touch. Include a legend and a short note that the map is for planning, not navigation.
 7. Render the final image from the intermediate source, then visually inspect it. Check marker count, out-of-scope exclusions, readable labels, nonblank rendering, and markdown links.
 
 ## Point Config

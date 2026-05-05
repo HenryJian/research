@@ -51,6 +51,15 @@ def mercator_y(lat: float) -> float:
     return math.log(math.tan(math.pi / 4.0 + radians / 2.0))
 
 
+def config_bool(config: dict[str, Any], key: str, default: bool = False) -> bool:
+    value = config.get(key, default)
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "true", "yes", "on"}
+    return bool(value)
+
+
 def parse_coordinate(value: object, label: str) -> tuple[float, float]:
     if isinstance(value, dict):
         if "lat" not in value or "lon" not in value:
@@ -144,6 +153,128 @@ def category_styles(points: list[dict[str, Any]], config: dict[str, Any]) -> dic
     return styles
 
 
+def layout_marker_positions(
+    points: list[dict[str, Any]],
+    config: dict[str, Any],
+    project: Any,
+    map_left: float,
+    map_top: float,
+    map_width: float,
+    map_height: float,
+) -> list[dict[str, Any]]:
+    layouts = []
+    for index, point in enumerate(points, start=1):
+        actual_x, actual_y = project(float(point["lon"]), float(point["lat"]))
+        layouts.append(
+            {
+                "index": index,
+                "point": point,
+                "actual_x": actual_x,
+                "actual_y": actual_y,
+                "marker_x": actual_x + float(point["marker_dx"]),
+                "marker_y": actual_y + float(point["marker_dy"]),
+                "preferred_dx": float(point["marker_dx"]),
+                "preferred_dy": float(point["marker_dy"]),
+            }
+        )
+
+    if not config_bool(config, "avoid_marker_overlap"):
+        return layouts
+
+    marker_radius = float(config.get("marker_radius", 12))
+    min_distance = float(config.get("marker_min_distance", marker_radius * 2 + 4))
+    edge_padding = float(config.get("marker_edge_padding", marker_radius + 4))
+    max_offset = float(config.get("marker_max_offset", 140))
+    angle_degrees = [-90, -60, -30, 0, 30, 60, 90, 120, 150, 180, -150, -120, -45, 45, 135, -135]
+    ring_distances = [0, 18, 30, 42, 56, 72, 90, 112, max_offset]
+
+    def is_inside(x: float, y: float) -> bool:
+        return (
+            map_left + edge_padding <= x <= map_left + map_width - edge_padding
+            and map_top + edge_padding <= y <= map_top + map_height - edge_padding
+        )
+
+    def overlap_penalty(x: float, y: float, placed: list[dict[str, Any]]) -> float:
+        penalty = 0.0
+        for other in placed:
+            distance = math.hypot(x - float(other["marker_x"]), y - float(other["marker_y"]))
+            if distance < min_distance:
+                penalty += (min_distance - distance) ** 2
+        return penalty
+
+    def candidates(layout: dict[str, Any]) -> list[tuple[float, float, float]]:
+        actual_x = float(layout["actual_x"])
+        actual_y = float(layout["actual_y"])
+        preferred_dx = float(layout["preferred_dx"])
+        preferred_dy = float(layout["preferred_dy"])
+        preferred_length = math.hypot(preferred_dx, preferred_dy)
+        angles = list(angle_degrees)
+        if preferred_length > 0.1:
+            preferred_angle = math.degrees(math.atan2(preferred_dy, preferred_dx))
+            angles = [preferred_angle, preferred_angle - 25, preferred_angle + 25, *angles]
+
+        seen: set[tuple[int, int]] = set()
+        options: list[tuple[float, float, float]] = []
+
+        def add(dx: float, dy: float) -> None:
+            x = actual_x + dx
+            y = actual_y + dy
+            key = (round(x), round(y))
+            if key in seen or not is_inside(x, y):
+                return
+            seen.add(key)
+            movement_cost = math.hypot(dx - preferred_dx, dy - preferred_dy)
+            offset_cost = math.hypot(dx, dy) * 0.08
+            options.append((movement_cost + offset_cost, x, y))
+
+        add(preferred_dx, preferred_dy)
+        if preferred_length > 0.1:
+            for radius in ring_distances:
+                if radius == 0:
+                    continue
+                scale = radius / preferred_length
+                add(preferred_dx * scale, preferred_dy * scale)
+
+        for radius in ring_distances:
+            for angle in angles:
+                radians = math.radians(angle)
+                add(math.cos(radians) * radius, math.sin(radians) * radius)
+
+        return sorted(options)
+
+    def density(layout: dict[str, Any]) -> tuple[int, int]:
+        neighbors = 0
+        for other in layouts:
+            if other is layout:
+                continue
+            distance = math.hypot(
+                float(layout["actual_x"]) - float(other["actual_x"]),
+                float(layout["actual_y"]) - float(other["actual_y"]),
+            )
+            if distance < min_distance * 2.6:
+                neighbors += 1
+        return -neighbors, int(layout["index"])
+
+    placed: list[dict[str, Any]] = []
+    for layout in sorted(layouts, key=density):
+        best: tuple[float, float, float] | None = None
+        best_score = float("inf")
+        for base_score, x, y in candidates(layout):
+            penalty = overlap_penalty(x, y, placed)
+            score = base_score + penalty * 1000
+            if penalty == 0:
+                best = (score, x, y)
+                break
+            if score < best_score:
+                best_score = score
+                best = (score, x, y)
+        if best is not None:
+            _, layout["marker_x"], layout["marker_y"] = best
+        placed.append(layout)
+
+    return layouts
+
+
 def basemap_bounds(config: dict[str, Any]) -> list[tuple[float, float]]:
     basemap = config.get("basemap", {})
     if not isinstance(basemap, dict):
@@ -198,10 +329,26 @@ def render_svg(config: dict[str, Any]) -> str:
     merc_min = mercator_y(lat_min)
     merc_max = mercator_y(lat_max)
 
-    def project(lon: float, lat: float) -> tuple[float, float]:
-        x = map_left + (lon - lon_min) * map_width / (lon_max - lon_min)
-        y = map_bottom - (mercator_y(lat) - merc_min) * map_height / (merc_max - merc_min)
-        return x, y
+    if config_bool(config, "preserve_aspect"):
+        lon_unit_min = math.radians(lon_min)
+        lon_unit_max = math.radians(lon_max)
+        lon_span = lon_unit_max - lon_unit_min
+        merc_span = merc_max - merc_min
+        scale = min(map_width / lon_span, map_height / merc_span)
+        x_origin = map_left + (map_width - lon_span * scale) / 2.0
+        y_origin = map_top + (map_height - merc_span * scale) / 2.0
+
+        def project(lon: float, lat: float) -> tuple[float, float]:
+            x = x_origin + (math.radians(lon) - lon_unit_min) * scale
+            y = y_origin + (merc_max - mercator_y(lat)) * scale
+            return x, y
+
+    else:
+
+        def project(lon: float, lat: float) -> tuple[float, float]:
+            x = map_left + (lon - lon_min) * map_width / (lon_max - lon_min)
+            y = map_bottom - (mercator_y(lat) - merc_min) * map_height / (merc_max - merc_min)
+            return x, y
 
     def point_string(coords: list[tuple[float, float]]) -> str:
         return " ".join(f"{x:.1f},{y:.1f}" for x, y in coords)
@@ -271,10 +418,31 @@ def render_svg(config: dict[str, Any]) -> str:
                 f'<text x="{x + label_dx:.1f}" y="{y + label_dy:.1f}" font-family="Helvetica, Arial, sans-serif" font-size="{font_size}" font-weight="{font_weight}" fill="{label_fill}" opacity="{label_opacity}">{escape(place["name"])}</text>'
             )
 
-    for index, point in enumerate(points, start=1):
-        actual_x, actual_y = project(float(point["lon"]), float(point["lat"]))
-        marker_x = actual_x + float(point["marker_dx"])
-        marker_y = actual_y + float(point["marker_dy"])
+    north_arrow = config.get("north_arrow", False)
+    if north_arrow:
+        arrow_config = north_arrow if isinstance(north_arrow, dict) else {}
+        arrow_x = float(arrow_config.get("x", map_left + map_width - 42))
+        arrow_y = float(arrow_config.get("y", map_top + 58))
+        arrow_fill = escape(arrow_config.get("fill", "#24303a"))
+        arrow_label = escape(arrow_config.get("label", "N"))
+        parts.append(
+            f'<polygon points="{arrow_x:.1f},{arrow_y - 28:.1f} {arrow_x - 8:.1f},{arrow_y - 8:.1f} {arrow_x:.1f},{arrow_y - 13:.1f} {arrow_x + 8:.1f},{arrow_y - 8:.1f}" fill="{arrow_fill}" opacity="0.9" />'
+        )
+        parts.append(
+            f'<line x1="{arrow_x:.1f}" y1="{arrow_y - 10:.1f}" x2="{arrow_x:.1f}" y2="{arrow_y + 14:.1f}" stroke="{arrow_fill}" stroke-width="2.2" stroke-linecap="round" opacity="0.86" />'
+        )
+        parts.append(
+            f'<text x="{arrow_x:.1f}" y="{arrow_y + 34:.1f}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="{arrow_fill}" opacity="0.9">{arrow_label}</text>'
+        )
+
+    marker_layouts = layout_marker_positions(points, config, project, map_left, map_top, map_width, map_height)
+    for marker_layout in marker_layouts:
+        index = marker_layout["index"]
+        point = marker_layout["point"]
+        actual_x = float(marker_layout["actual_x"])
+        actual_y = float(marker_layout["actual_y"])
+        marker_x = float(marker_layout["marker_x"])
+        marker_y = float(marker_layout["marker_y"])
         fill = styles[str(point["category"])]["fill"]
         if abs(marker_x - actual_x) > 0.1 or abs(marker_y - actual_y) > 0.1:
             parts.append(
@@ -425,10 +593,26 @@ def render_png(config: dict[str, Any], output_path: Path) -> None:
     merc_min = mercator_y(lat_min)
     merc_max = mercator_y(lat_max)
 
-    def project(lon: float, lat: float) -> tuple[float, float]:
-        x = map_left + (lon - lon_min) * map_width / (lon_max - lon_min)
-        y = map_bottom - (mercator_y(lat) - merc_min) * map_height / (merc_max - merc_min)
-        return x, y
+    if config_bool(config, "preserve_aspect"):
+        lon_unit_min = math.radians(lon_min)
+        lon_unit_max = math.radians(lon_max)
+        lon_span = lon_unit_max - lon_unit_min
+        merc_span = merc_max - merc_min
+        render_scale = min(map_width / lon_span, map_height / merc_span)
+        x_origin = map_left + (map_width - lon_span * render_scale) / 2.0
+        y_origin = map_top + (map_height - merc_span * render_scale) / 2.0
+
+        def project(lon: float, lat: float) -> tuple[float, float]:
+            x = x_origin + (math.radians(lon) - lon_unit_min) * render_scale
+            y = y_origin + (merc_max - mercator_y(lat)) * render_scale
+            return x, y
+
+    else:
+
+        def project(lon: float, lat: float) -> tuple[float, float]:
+            x = map_left + (lon - lon_min) * map_width / (lon_max - lon_min)
+            y = map_bottom - (mercator_y(lat) - merc_min) * map_height / (merc_max - merc_min)
+            return x, y
 
     image = Image.new("RGB", (s(width), s(height)), "#fbfaf4")
     draw = ImageDraw.Draw(image)
@@ -481,10 +665,39 @@ def render_png(config: dict[str, Any], output_path: Path) -> None:
             map_draw.ellipse([s(x - radius), s(y - radius), s(x + radius), s(y + radius)], fill=color(place_fill, opacity))
             map_draw.text((s(x + label_dx), s(y + label_dy)), str(place["name"]), font=font(font_size, font_weight), fill=color(label_fill, label_opacity))
 
-    for index, point in enumerate(points, start=1):
-        actual_x, actual_y = project(float(point["lon"]), float(point["lat"]))
-        marker_x = actual_x + float(point["marker_dx"])
-        marker_y = actual_y + float(point["marker_dy"])
+    north_arrow = config.get("north_arrow", False)
+    if north_arrow:
+        arrow_config = north_arrow if isinstance(north_arrow, dict) else {}
+        arrow_x = float(arrow_config.get("x", map_left + map_width - 42))
+        arrow_y = float(arrow_config.get("y", map_top + 58))
+        arrow_fill = arrow_config.get("fill", "#24303a")
+        arrow_label = str(arrow_config.get("label", "N"))
+        map_draw.polygon(
+            [
+                (s(arrow_x), s(arrow_y - 28)),
+                (s(arrow_x - 8), s(arrow_y - 8)),
+                (s(arrow_x), s(arrow_y - 13)),
+                (s(arrow_x + 8), s(arrow_y - 8)),
+            ],
+            fill=color(arrow_fill, 0.9),
+        )
+        map_draw.line(
+            (s(arrow_x), s(arrow_y - 10), s(arrow_x), s(arrow_y + 14)),
+            fill=color(arrow_fill, 0.86),
+            width=s(2.2),
+        )
+        arrow_font = font(13, "700")
+        label_width, _ = text_size(map_draw, arrow_label, arrow_font)
+        map_draw.text((s(arrow_x) - label_width / 2, s(arrow_y + 20)), arrow_label, font=arrow_font, fill=color(arrow_fill, 0.9))
+
+    marker_layouts = layout_marker_positions(points, config, project, map_left, map_top, map_width, map_height)
+    for marker_layout in marker_layouts:
+        index = marker_layout["index"]
+        point = marker_layout["point"]
+        actual_x = float(marker_layout["actual_x"])
+        actual_y = float(marker_layout["actual_y"])
+        marker_x = float(marker_layout["marker_x"])
+        marker_y = float(marker_layout["marker_y"])
         fill = styles[str(point["category"])]["fill"]
         if abs(marker_x - actual_x) > 0.1 or abs(marker_y - actual_y) > 0.1:
             map_draw.line((s(actual_x), s(actual_y), s(marker_x), s(marker_y)), fill=color(fill, 0.58), width=s(1.1))
