@@ -1,8 +1,8 @@
 {
-  "title": "Ontario distributor buyer leads (non-OFTB)",
-  "subtitle": "All plotted points are active non-Ontario-Food-Terminal distributor leads from distributors.md. Green context marker shows the farm area in Waterford.",
+  "title": "Ontario distributor buyer leads (non-OFT / non-OFTB)",
+  "subtitle": "All plotted points are active distributor leads from distributors.md without confirmed Ontario Food Terminal operations. Green context marker shows the farm area in Waterford.",
   "index_title": "Lead Index",
-  "index_note": "OFTB-listed reference rows are intentionally excluded.",
+  "index_note": "OFT reference rows are excluded.",
   "footer": "Generated from public-address coordinates in distributors.md. Multiple-location companies use the representative Ontario address listed in the table. Waterford marker uses town-centre coordinates for farm-area context.",
   "preserve_aspect": true,
   "north_arrow": true,
@@ -92,14 +92,11 @@
     {"name": "Bondi Produce", "category": "High", "coordinate": {"lat": 43.6082114, "lon": -79.5006202}, "marker_offset": [-18, 8]},
     {"name": "Green Liner Produce", "category": "High", "coordinate": {"lat": 43.552584, "lon": -80.3046717}},
     {"name": "Don's Produce", "category": "Medium", "coordinate": {"lat": 43.4135333, "lon": -80.6051477}},
-    {"name": "Produce Express", "category": "Medium", "coordinate": {"lat": 43.1210969, "lon": -80.7144843}, "marker_offset": [-8, 14]},
     {"name": "Sanfilippo Wholesale", "category": "Medium", "coordinate": {"lat": 44.5000706, "lon": -80.2056795}},
     {"name": "Mister Produce", "category": "Medium", "coordinate": {"lat": 43.6066917, "lon": -79.5863848}, "marker_offset": [-34, -18]},
-    {"name": "Deluxe Produce", "category": "Medium", "coordinate": {"lat": 43.7807801, "lon": -79.4718093}, "marker_offset": [16, -16]},
     {"name": "Mike & Mike's Organics / Fresh Direct Produce Group", "category": "Medium", "coordinate": {"lat": 43.7848982, "lon": -79.5923855}, "marker_offset": [20, -22]},
     {"name": "100km Foods", "category": "Medium", "coordinate": {"lat": 43.7058, "lon": -79.4708}, "marker_offset": [-38, -10]},
     {"name": "Fresh Start Foods", "category": "Medium", "coordinate": {"lat": 43.5354725, "lon": -79.9037545}},
-    {"name": "Bamford Produce", "category": "Medium", "coordinate": {"lat": 43.601012, "lon": -79.5868871}, "marker_offset": [-14, 24]},
     {"name": "Morton Food Service", "category": "Medium", "coordinate": {"lat": 42.25, "lon": -82.968}},
     {"name": "Flanagan Foodservice", "category": "Medium", "coordinate": {"lat": 43.4075464, "lon": -80.4526195}, "marker_offset": [10, -18]},
     {"name": "Sysco Southwest Ontario", "category": "Medium", "coordinate": {"lat": 43.1210969, "lon": -80.7144843}, "marker_offset": [10, -16]},
@@ -112,6 +109,7 @@
     {"name": "Forte Produce / J.P. Forte", "category": "Low", "coordinate": {"lat": 43.1316394, "lon": -80.278881}, "marker_offset": [-18, -18]},
     {"name": "Sunsprout Natural Foods", "category": "Low", "coordinate": {"lat": 43.1408157, "lon": -80.2631733}, "marker_offset": [16, 18]},
     {"name": "CJR Wholesale Grocers", "category": "Low", "coordinate": {"lat": 43.6298426, "lon": -79.6703628}, "marker_offset": [26, 34]},
+    {"name": "DiLiso's Fresh 2U Produce", "category": "Low", "coordinate": {"lat": 43.6310838, "lon": -79.5211278}, "marker_offset": [36, -30]},
     {"name": "AM Produce", "category": "Low", "coordinate": {"lat": 43.5992855, "lon": -79.5356005}, "marker_offset": [-34, 34]}
   ]
 }

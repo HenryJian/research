@@ -3,7 +3,8 @@
     "allow": [
       "Bash(git add *)",
       "Bash(git rm *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(grep -v \"^\\\\\\(+\\\\|-\\\\\\)[[:space:]]*$\")"
     ]
   }
 }
